@@ -12,7 +12,7 @@ public class Opportunity {
     private OppStatus status;
 
 
-    public Opportunity(int id, ProductType product, Contact decisionMaker, int quantity, OppStatus status) {
+    public Opportunity(ProductType product, Contact decisionMaker, int quantity, OppStatus status) {
         counter++;
         this.id = counter;
         setProduct(product);
