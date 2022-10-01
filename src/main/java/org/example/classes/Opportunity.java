@@ -56,4 +56,14 @@ public class Opportunity {
     public void setStatus(OppStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Opportunity " + this.getId() + ":\n"+
+                "Product: " + this.getProduct() + "\n"+
+                "Decision maker: " + this.getDecisionMaker() + "\n"+
+                "Quantity: " + this.getQuantity() + "\n"+
+                "Status: " + this.getStatus() + "\n" +
+                "==========================================";
+    }
 }

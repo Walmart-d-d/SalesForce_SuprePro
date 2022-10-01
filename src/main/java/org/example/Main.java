@@ -24,10 +24,10 @@ public class Main {
         Scanner input = new Scanner (System.in);
         System.out.println("Introduce name:");
         String name = input.nextLine();
-        System.out.println("Introduce telephone number:");
+        System.out.println("Introduce telephone number:"); //hay que hacer catch
         String phone = input.nextLine();
         int phoneNumber = Integer.parseInt(phone);
-        System.out.println("Introduce email address:");
+        System.out.println("Introduce email address:"); //podria hacerse catch
         String email = input.nextLine();
         System.out.println("Introduce the name of the company:");
         String companyName = input.nextLine();
@@ -41,9 +41,13 @@ public class Main {
            }
     }
 
-    public void createOpportunityAndAccount(Lead lead){
-        Contact decisionMaker = new Contact(lead.getName(),lead.getPhoneNumber(),lead.getEmail(),lead.getCompanyName());
+    public static void createOpportunityAndAccount(){
         Scanner input = new Scanner (System.in);
+        System.out.println("Enter the identification number of the lead you want to convert:"); //hay que hacer catch
+        String idString = input.nextLine();
+        int idInt = Integer.parseInt(idString);
+        Lead lead = leadMap.get(idInt);
+        Contact decisionMaker = new Contact(lead.getName(),lead.getPhoneNumber(),lead.getEmail(),lead.getCompanyName());
         System.out.println("Choose product type:");
         System.out.println("1. Hybrid");
         System.out.println("2. Flatbed");
@@ -57,9 +61,9 @@ public class Main {
         } else if(productKey=="3"){
             productType = ProductType.BOX;
         } else {
-            throw new IllegalArgumentException("Not valid option.");
+            throw new IllegalArgumentException("Not a valid option."); //hay que devolver la pregunta
         }
-        System.out.println("Number of products:");
+        System.out.println("Number of products:"); //hay que hacer catch
         String numberOfProducts = input.nextLine();
         int quantity = Integer.parseInt(numberOfProducts);
         OppStatus status = OppStatus.OPEN;
@@ -104,9 +108,9 @@ public class Main {
                 industryOption = IndustryOption.OTHER;
                 break;
             default:
-                throw new IllegalArgumentException("Not valid option.");
+                throw new IllegalArgumentException("Not valid option."); //hay que devolver la pregunta
         }
-        System.out.println("Number of employees:");
+        System.out.println("Number of employees:"); //hay que hacer catch
         String numEmployees = input.nextLine();
         int employeeCount = Integer.parseInt(numEmployees);
         System.out.println("City:");
@@ -120,5 +124,69 @@ public class Main {
         Account account = new Account(industryOption, employeeCount, city, country, oppList, contactList);
         accountMap.put(account.getId(), account);
     }
+    public static void createOpportunity() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the identification number of the company account this opportunity is attached to:"); // hay que hacer catch
+        String idAccString = input.nextLine();
+        int idAccInt = Integer.parseInt(idAccString);
+        Account account = accountMap.get(idAccInt);
+        System.out.println("Enter the identification number of the lead you want to convert:"); //hay que hacer catch
+        String idString = input.nextLine();
+        int idInt = Integer.parseInt(idString);
+        Lead lead = leadMap.get(idInt);
+        Contact decisionMaker = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
+        System.out.println("Choose product type:");
+        System.out.println("1. Hybrid");
+        System.out.println("2. Flatbed");
+        System.out.println("3. Box");
+        String productKey = input.nextLine();
+        ProductType productType;
+        if (productKey == "1") {
+            productType = ProductType.HYBRID;
+        } else if (productKey == "2") {
+            productType = ProductType.FLATBED;
+        } else if (productKey == "3") {
+            productType = ProductType.BOX;
+        } else {
+            throw new IllegalArgumentException("Not valid option."); //hay que devolver la pregunta
+        }
+        System.out.println("Number of products:"); //hay que hacer catch
+        String numberOfProducts = input.nextLine();
+        int quantity = Integer.parseInt(numberOfProducts);
+        OppStatus status = OppStatus.OPEN;
+        Opportunity opportunity = new Opportunity(productType, decisionMaker, quantity, status);
+        oppMap.put(opportunity.getId(), opportunity);
+        account.addContactList(decisionMaker);
+        account.addOpportunityList(opportunity);
+    }
 
+    public static void showAllOpportunities(){
+        for(Map.Entry<Integer, Opportunity> leadEntry : oppMap.entrySet()){
+            System.out.println(leadEntry.getValue());
+        }
+    }
+
+    public static void showOpportunityList(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the identification number of the account you want to see the list of opportunities of:"); //hay que hacer catch
+        String accString = input.nextLine();
+        int accInt = Integer.parseInt(accString);
+        Account account = accountMap.get(accInt);
+        List<Opportunity> opportunityList = account.getOpportunityList();
+        for (Opportunity opportunity : opportunityList){
+            System.out.println(opportunity.toString());
+        }
+    }
+
+    public static void showContactList(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the identification number of the account you want to see the list of opportunities of:"); //hay que hacer catch
+        String accString = input.nextLine();
+        int accInt = Integer.parseInt(accString);
+        Account account = accountMap.get(accInt);
+        List<Contact> contactList = account.getContactList();
+        for (Contact contact : contactList){
+            System.out.println(contact.toString());
+        }
+    }
 }
