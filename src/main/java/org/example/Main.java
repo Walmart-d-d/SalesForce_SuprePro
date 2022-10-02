@@ -317,10 +317,11 @@ public static void createAccount(){
         }
         int oppIdInt = Integer.parseInt(oppId);
         if (!oppMap.containsKey(oppIdInt)) {
-            throw new NoSuchFieldException("Lead not found.");
+            System.err.println("Lead not found.");
+            changeStatus();
         }
         System.out.println("Choose new status:");
-            System.out.println("1. OPEN");
+        System.out.println("1. OPEN");
         System.out.println("2. CLOSED_WON");
         System.out.println("3. CLOSED_LOST");
         String status = input.nextLine();
