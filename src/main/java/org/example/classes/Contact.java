@@ -17,11 +17,12 @@ public class Contact extends Person {
 
     @Override
     public String toString() {
-        return "Contact " +this.getId()+": \n" +
+        return  "-----\n"+
+                "Contact " +this.getId()+": \n" +
                 "Contact name: " + this.getName() + '\n' +
                 "Telephone number: " + this.getPhoneNumber() + '\n'+
                 "E-mail address: " + this.getEmail() + '\n' +
                 "Company: " + this.getCompanyName() + '\n' +
-                "==========================================";
+                "-----";
     }
 }

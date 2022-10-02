@@ -15,10 +15,15 @@ public class Main {
     private static Map<Integer, Opportunity> oppMap = new HashMap<>();
     private static Map<Integer, Account> accountMap = new HashMap<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchFieldException {
         createLead();
         createLead();
         showLeadMap();
+        createOpportunityAndAccount();
+        createOpportunity();
+        showAccounts();
+        showContactList();
+        showOpportunityList();
     }
 
 
@@ -62,7 +67,7 @@ public class Main {
             idString = input.nextLine();
         }
         int idInt = Integer.parseInt(idString);
-        if (!leadMap.containsKey(idString)){
+        if (!leadMap.containsKey(idInt)){
             throw new NoSuchFieldException("Lead not found.");
         }
         Lead lead = leadMap.get(idInt);
@@ -73,14 +78,14 @@ public class Main {
         System.out.println("2. Flatbed");
         System.out.println("3. Box");
         String productKey = input.nextLine();
-        while (productKey!="1" && productKey!="2" && productKey!="3"){
+    /*    while (productKey!="1" || productKey!="2" || productKey!="3"){
             System.err.println("Invalid option.");
             System.out.println("Choose product type:");
             System.out.println("1. Hybrid");
             System.out.println("2. Flatbed");
             System.out.println("3. Box");
             productKey = input.nextLine();
-        }
+        }*/
         ProductType productType;
         switch(productKey){
             case "1":
@@ -114,7 +119,7 @@ public class Main {
         System.out.println("4. Medical");
         System.out.println("5. Other");
         String industryKey = input.nextLine();
-        while (industryKey!="1" && industryKey!="2" && industryKey!="3" && industryKey!="4" && industryKey!="5"){
+      /*  while (industryKey!="1" && industryKey!="2" && industryKey!="3" && industryKey!="4" && industryKey!="5"){
             System.err.println("Invalid option.");
             System.out.println("Please, choose the company's sector:");
             System.out.println("1. Produce");
@@ -123,7 +128,7 @@ public class Main {
             System.out.println("4. Medical");
             System.out.println("5. Other");
             industryKey = input.nextLine();
-        }
+        }*/
         IndustryOption industryOption;
        /* if (industryKey == "1"){
             industryOption = IndustryOption.PRODUCE;
@@ -206,14 +211,14 @@ public class Main {
         System.out.println("2. Flatbed");
         System.out.println("3. Box");
         String productKey = input.nextLine();
-        while (productKey!="1" && productKey!="2" && productKey!="3"){
+      /*  while (productKey!="1" && productKey!="2" && productKey!="3"){
             System.err.println("Invalid option.");
             System.out.println("Choose product type:");
             System.out.println("1. Hybrid");
             System.out.println("2. Flatbed");
             System.out.println("3. Box");
             productKey = input.nextLine();
-        }
+        }*/
         ProductType productType;
         switch(productKey){
             case "1":
@@ -267,7 +272,7 @@ public class Main {
 
     public static void showContactList() throws NoSuchFieldException {
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter the identification number of the account you want to see the list of opportunities of:");
+        System.out.println("Enter the identification number of the account you want to see the list of contacts of:");
         String accString = input.nextLine();
         while (accString.contains("a") || accString.contains("b") || accString.contains("c") || accString.contains("d") || accString.contains("e") || accString.contains("f") || accString.contains("g") || accString.contains("h") || accString.contains("i") || accString.contains("j") || accString.contains("k") || accString.contains("l") || accString.contains("m") || accString.contains("n") || accString.contains("o") || accString.contains("p") || accString.contains("q") || accString.contains("r") || accString.contains("s") || accString.contains("t") || accString.contains("u") || accString.contains("v") || accString.contains("w") || accString.contains("x") || accString.contains("y") || accString.contains("z") || accString.contains("A") || accString.contains("B") || accString.contains("C") || accString.contains("D") || accString.contains("E") || accString.contains("F") || accString.contains("G") || accString.contains("H") || accString.contains("I") || accString.contains("J") || accString.contains("K") || accString.contains("L") || accString.contains("M") || accString.contains("N") || accString.contains("O") || accString.contains("P") || accString.contains("Q") || accString.contains("R") || accString.contains("S") || accString.contains("T") || accString.contains("U") || accString.contains("V") || accString.contains("W") || accString.contains("X") || accString.contains("Y") || accString.contains("Z")){
             System.err.println("The identification must be a number.");
