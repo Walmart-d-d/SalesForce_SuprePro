@@ -52,7 +52,7 @@ public class Main {
            }
     }
 
-    public static void createOpportunityAndAccount(){
+    public static void createOpportunityAndAccount() throws NoSuchFieldException {
         Scanner input = new Scanner (System.in);
         System.out.println("Enter the identification number of the lead you want to convert:"); //hay que hacer catch
         String idString = input.nextLine();
@@ -62,6 +62,9 @@ public class Main {
             idString = input.nextLine();
         }
         int idInt = Integer.parseInt(idString);
+        if (!leadMap.containsKey(idString)){
+            throw new NoSuchFieldException("Lead not found.");
+        }
         Lead lead = leadMap.get(idInt);
         Contact decisionMaker = new Contact(lead.getName(),lead.getPhoneNumber(),lead.getEmail(),lead.getCompanyName());
         leadMap.remove(idInt);
@@ -173,7 +176,7 @@ public class Main {
         Account account = new Account(industryOption, employeeCount, city, country, oppList, contactList);
         accountMap.put(account.getId(), account);
     }
-    public static void createOpportunity() {
+    public static void createOpportunity() throws NoSuchFieldException {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the identification number of the company account this opportunity is attached to:");
         String idAccString = input.nextLine();
@@ -183,6 +186,9 @@ public class Main {
             idAccString = input.nextLine();
         }
         int idAccInt = Integer.parseInt(idAccString);
+        if(!accountMap.containsKey(idAccInt)){
+            throw new NoSuchFieldException("Account not found.");
+        }
         Account account = accountMap.get(idAccInt);
         System.out.println("Enter the identification number of the lead you want to convert:"); //hay que hacer catch
         String idString = input.nextLine();
@@ -238,7 +244,7 @@ public class Main {
         }
     }
 
-    public static void showOpportunityList(){
+    public static void showOpportunityList() throws NoSuchFieldException {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the identification number of the account you want to see the list of opportunities of:");
         String accString = input.nextLine();
@@ -248,14 +254,18 @@ public class Main {
             accString = input.nextLine();
         }
         int accInt = Integer.parseInt(accString);
-        Account account = accountMap.get(accInt);
-        List<Opportunity> opportunityList = account.getOpportunityList();
-        for (Opportunity opportunity : opportunityList){
-            System.out.println(opportunity.toString());
+        if(accountMap.containsKey(accInt)) {
+            Account account = accountMap.get(accInt);
+            List<Opportunity> opportunityList = account.getOpportunityList();
+            for (Opportunity opportunity : opportunityList) {
+                System.out.println(opportunity.toString());
+            }
+        }else{
+            throw new NoSuchFieldException("Account not found.");
         }
     }
 
-    public static void showContactList(){
+    public static void showContactList() throws NoSuchFieldException {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the identification number of the account you want to see the list of opportunities of:");
         String accString = input.nextLine();
@@ -265,10 +275,14 @@ public class Main {
             accString = input.nextLine();
         }
         int accInt = Integer.parseInt(accString);
-        Account account = accountMap.get(accInt);
-        List<Contact> contactList = account.getContactList();
-        for (Contact contact : contactList){
-            System.out.println(contact.toString());
+        if (accountMap.containsKey(accInt)) {
+            Account account = accountMap.get(accInt);
+            List<Contact> contactList = account.getContactList();
+            for (Contact contact : contactList) {
+                System.out.println(contact.toString());
+            }
+        }else{
+            throw new NoSuchFieldException("Account not found.");
         }
     }
     public static void showAccounts(){
@@ -287,7 +301,7 @@ public class Main {
             idString = input.nextLine();
         }
         int idInt = Integer.parseInt(idString);
-        if (idInt>0 && idInt<leadMap.size()){
+        if (leadMap.containsKey(idInt)){
             System.out.println(leadMap.containsKey(idInt));
         } else {
             throw new NoSuchFieldException("Lead does not exist.");
