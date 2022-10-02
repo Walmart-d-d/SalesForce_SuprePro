@@ -40,7 +40,7 @@ public class Main {
             phone = input.nextLine();
         }
         int phoneNumber = Integer.parseInt(phone);
-        System.out.println("Introduce email address:"); //podria hacerse catch
+        System.out.println("Introduce email address:");
         String email = input.nextLine();
         System.out.println("Introduce the name of the company:");
         String companyName = input.nextLine();
@@ -301,7 +301,7 @@ public static void createAccount(){
         }
         int idInt = Integer.parseInt(idString);
         if (leadMap.containsKey(idInt)){
-            System.out.println(leadMap.containsKey(idInt));
+            System.out.println(leadMap.get(idInt));
         } else {
             throw new NoSuchFieldException("Lead does not exist.");
         }
