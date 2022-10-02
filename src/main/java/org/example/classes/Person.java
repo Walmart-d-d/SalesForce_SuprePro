@@ -45,4 +45,6 @@ public abstract class Person {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
+
 }

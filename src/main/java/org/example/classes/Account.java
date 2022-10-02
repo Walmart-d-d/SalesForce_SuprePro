@@ -77,4 +77,24 @@ public class Account {
     public void setContactList(List<Contact> contactList) {
         this.contactList = contactList;
     }
+
+    public void addContactList(Contact contact){
+        this.contactList.add(contact);
+    }
+
+    public void addOpportunityList(Opportunity opportunity){
+        this.opportunityList.add(opportunity);
+    }
+
+    @Override
+    public String toString() {
+        return "Account " +this.getId()+":\n"+
+                "Industry sector: " + this.getIndustryOption() +"\n"+
+                "Employee count: " + this.getEmployeeCount() +"\n"+
+                "City: " + this.getCity() + "\n"+
+                "Country: " + this.getCountry() + "\n" +
+                "Number of opportunities: " + this.getOpportunityList().size() + "\n"+
+                "Contacts: " + this.getContactList().size() + "\n"+
+                "==========================================";
+    }
 }
