@@ -20,17 +20,16 @@ public class Main {
 
     public static void main(String[] args){
 
-
     }
 
 
 
+    public static Map<String, String> getLeadInfo(){
+        Map<String, String> leadInfo = new HashMap<String, String>();
 
-
-
-    public static void createLead(){
         System.out.println("Introduce name:");
         String name = input.nextLine();
+        leadInfo.put("name", name);
         System.out.println("Introduce telephone number:"); //hay que hacer catch
         String phone = input.nextLine();
  /*       while (phone.contains("a") || phone.contains("b") || phone.contains("c") || phone.contains("d") || phone.contains("e") || phone.contains("f") || phone.contains("g") || phone.contains("h") || phone.contains("i") || phone.contains("j") || phone.contains("k") || phone.contains("l") || phone.contains("m") || phone.contains("n") || phone.contains("o") || phone.contains("p") || phone.contains("q") || phone.contains("r") || phone.contains("s") || phone.contains("t") || phone.contains("u") || phone.contains("v") || phone.contains("w") || phone.contains("x") || phone.contains("y") || phone.contains("z") || phone.contains("A") || phone.contains("B") || phone.contains("C") || phone.contains("D") || phone.contains("E") || phone.contains("F") || phone.contains("G") || phone.contains("H") || phone.contains("I") || phone.contains("J") || phone.contains("K") || phone.contains("L") || phone.contains("M") || phone.contains("N") || phone.contains("O") || phone.contains("P") || phone.contains("Q") || phone.contains("R") || phone.contains("S") || phone.contains("T") || phone.contains("U") || phone.contains("V") || phone.contains("W") || phone.contains("X") || phone.contains("Y") || phone.contains("Z")){*/
@@ -39,12 +38,23 @@ public class Main {
             System.out.println("Please, introduce telephone number:");
             phone = input.nextLine();
         }
-        int phoneNumber = Integer.parseInt(phone);
+        leadInfo.put("phone", phone);
+        //int phoneNumber = Integer.parseInt(phone);
         System.out.println("Introduce email address:");
         String email = input.nextLine();
+        leadInfo.put("email", email);
         System.out.println("Introduce the name of the company:");
         String companyName = input.nextLine();
-        Lead lead = new Lead (name, phoneNumber, email, companyName);
+        leadInfo.put("companyName", companyName);
+
+        return leadInfo;
+
+        //Lead lead = new Lead (name, phoneNumber, email, companyName);
+        //leadMap.put(lead.getId(), lead);
+    }
+
+    public static void createLead(Map<String, String> leadInfo){
+        Lead lead = new Lead (leadInfo.get("name"), Integer.parseInt(leadInfo.get("phone")), leadInfo.get("email"), leadInfo.get("companyName"));
         leadMap.put(lead.getId(), lead);
     }
 
