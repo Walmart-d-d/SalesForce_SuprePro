@@ -1,4 +1,5 @@
 import org.example.Main;
+import org.example.classes.Account;
 import org.example.classes.Lead;
 import org.example.classes.Opportunity;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +20,7 @@ public class MainTests {
 
     private Map<Integer, Lead> leadMap;
     private Map<Integer, Opportunity> oppMap;
+    private Map<Integer, Account> accountMap;
 
     @BeforeEach
     void setUp() {
@@ -31,6 +33,7 @@ public class MainTests {
             );
 
         oppMap = new HashMap<>();
+        accountMap = new HashMap<>();
     }
 
     @Test
@@ -131,6 +134,20 @@ public class MainTests {
 
         Main.createOpportunity(oppMap);
         assertEquals(1, oppMap.keySet().size());
+    }
+
+    @Test
+    @DisplayName("Create account - works ok")
+    void createAccount_WorksOk(){
+        String userInput = String.format("1%s1%sBarcelona%sSpain",
+                System.lineSeparator(),
+                System.lineSeparator(),
+                System.lineSeparator());
+        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(bais);
+
+        Main.createAccount(accountMap);
+        assertEquals(1, accountMap.keySet().size());
     }
 
 

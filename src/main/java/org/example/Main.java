@@ -129,7 +129,7 @@ public class Main {
 
 
 
-public static void createAccount(){
+public static void createAccount(Map<Integer, Account> accountMap){
         System.out.println("Choose the company's sector:");
         System.out.println("1. Produce");
         System.out.println("2. E-Commerce");
@@ -156,7 +156,7 @@ public static void createAccount(){
                 break;
             default:
                 System.err.println("Invalid option.");
-                createAccount();
+                createAccount(accountMap);
         }
         System.out.println("Number of employees:");
         String numEmployees = input.nextLine();
