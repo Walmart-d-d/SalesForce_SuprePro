@@ -28,7 +28,6 @@ public class Main {
 
         System.out.println("Introduce name:");
         String name = input.nextLine();
-        leadInfo.put("name", name);
 
         System.out.println("Introduce telephone number:");
         String phone = input.nextLine();
@@ -40,7 +39,6 @@ public class Main {
 
         System.out.println("Introduce email address:");
         String email = input.nextLine();
-
 
         System.out.println("Introduce the name of the company:");
         String companyName = input.nextLine();
@@ -56,8 +54,7 @@ public class Main {
     }
 
     public static Lead createLead(Map<String, String> leadInfo){
-        Lead lead = new Lead (leadInfo.get("name"), Integer.parseInt(leadInfo.get("phone")), leadInfo.get("email"), leadInfo.get("companyName"));
-        return lead;
+        return new Lead (leadInfo.get("name"), Integer.parseInt(leadInfo.get("phone")), leadInfo.get("email"), leadInfo.get("companyName"));
     }
 
     //leadMap.put(lead.getId(), lead); --> pending
