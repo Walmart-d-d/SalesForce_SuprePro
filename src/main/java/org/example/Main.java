@@ -195,25 +195,28 @@ public static void createAccount(Map<Integer, Account> accountMap){
         return account;
     }
 
-        public static void createDecisionMakerInAccount() {
+        public static Contact createDecisionMakerInAccount(Map<Integer, Lead> leadMap) {
             System.out.println("Enter the identification number of the lead you want to convert:");
             String idString = input.nextLine();
-            /*   while (idString.contains("a") || idString.contains("b") || idString.contains("c") || idString.contains("d") || idString.contains("e") || idString.contains("f") || idString.contains("g") || idString.contains("h") || idString.contains("i") || idString.contains("j") || idString.contains("k") || idString.contains("l") || idString.contains("m") || idString.contains("n") || idString.contains("o") || idString.contains("p") || idString.contains("q") || idString.contains("r") || idString.contains("s") || idString.contains("t") || idString.contains("u") || idString.contains("v") || idString.contains("w") || idString.contains("x") || idString.contains("y") || idString.contains("z") || idString.contains("A") || idString.contains("B") || idString.contains("C") || idString.contains("D") || idString.contains("E") || idString.contains("F") || idString.contains("G") || idString.contains("H") || idString.contains("I") || idString.contains("J") || idString.contains("K") || idString.contains("L") || idString.contains("M") || idString.contains("N") || idString.contains("O") || idString.contains("P") || idString.contains("Q") || idString.contains("R") || idString.contains("S") || idString.contains("T") || idString.contains("U") || idString.contains("V") || idString.contains("W") || idString.contains("X") || idString.contains("Y") || idString.contains("Z")){*/
             while (!NumberUtils.isParsable(idString)) {
                 System.err.println("The identification must be a number.");
                 System.out.println("Please, enter the lead identification number:");
                 idString = input.nextLine();
             }
+            System.out.println(idString);
             int idInt = Integer.parseInt(idString);
             if (!leadMap.containsKey(idInt)) {
                 System.err.println("Lead not found.");
-                createDecisionMakerInAccount();
+                createDecisionMakerInAccount(leadMap);
             }
             Lead lead = leadMap.get(idInt);
             decisionMaker = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
-            leadMap.remove(idInt);
-            createOppInAccount();
+            System.out.println(decisionMaker);
+            //leadMap.remove(idInt);
+            return decisionMaker;
         }
+
+
 
         public static void createOppInAccount(){
         System.out.println("Choose product type:");

@@ -1,5 +1,6 @@
 import org.example.Main;
 import org.example.classes.Account;
+import org.example.classes.Contact;
 import org.example.classes.Lead;
 import org.example.classes.Opportunity;
 import org.example.enums.IndustryOption;
@@ -24,6 +25,7 @@ public class MainTests {
     private Map<Integer, Opportunity> oppMap;
     private Map<Integer, Account> accountMap;
     private Account account;
+    private static Contact decisionMaker;
 
     @BeforeEach
     void setUp() {
@@ -40,6 +42,7 @@ public class MainTests {
         accountMap = new HashMap<>();
         accountMap.put(account1.getId(), account1);
         account = null;
+        decisionMaker = null;
     }
 
     @Test
@@ -166,6 +169,19 @@ public class MainTests {
         Account account = Main.createOpportunityInAccount(accountMap);
 
         assertEquals(1, account.getId());
+    }
+
+    @Test
+    @DisplayName("Create decision maker in account - works ok")
+    void createDecisionMakerInAccount_WorksOk(){
+        String userInput = "1";
+        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(bais);
+
+        Contact decisionMaker1 = Main.createDecisionMakerInAccount(leadMap);
+        System.out.println(decisionMaker1.toString());
+
+        assertEquals(1, decisionMaker1.getId());
     }
 
 
