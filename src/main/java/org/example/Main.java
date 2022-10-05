@@ -178,10 +178,9 @@ public static void createAccount(Map<Integer, Account> accountMap){
         accountMap.put(account.getId(), account);
     }
 
-    public static void createOpportunityInAccount(){
+    public static Account createOpportunityInAccount(Map<Integer, Account> accountMap){
         System.out.println("Enter the identification number of the company account this opportunity is attached to:");
         String idAccString = input.nextLine();
-        /*    while (idAccString.contains("a") || idAccString.contains("b") || idAccString.contains("c") || idAccString.contains("d") || idAccString.contains("e") || idAccString.contains("f") || idAccString.contains("g") || idAccString.contains("h") || idAccString.contains("i") || idAccString.contains("j") || idAccString.contains("k") || idAccString.contains("l") || idAccString.contains("m") || idAccString.contains("n") || idAccString.contains("o") || idAccString.contains("p") || idAccString.contains("q") || idAccString.contains("r") || idAccString.contains("s") || idAccString.contains("t") || idAccString.contains("u") || idAccString.contains("v") || idAccString.contains("w") || idAccString.contains("x") || idAccString.contains("y") || idAccString.contains("z") || idAccString.contains("A") || idAccString.contains("B") || idAccString.contains("C") || idAccString.contains("D") || idAccString.contains("E") || idAccString.contains("F") || idAccString.contains("G") || idAccString.contains("H") || idAccString.contains("I") || idAccString.contains("J") || idAccString.contains("K") || idAccString.contains("L") || idAccString.contains("M") || idAccString.contains("N") || idAccString.contains("O") || idAccString.contains("P") || idAccString.contains("Q") || idAccString.contains("R") || idAccString.contains("S") || idAccString.contains("T") || idAccString.contains("U") || idAccString.contains("V") || idAccString.contains("W") || idAccString.contains("X") || idAccString.contains("Y") || idAccString.contains("Z")){*/
         while (!NumberUtils.isParsable(idAccString)) {
             System.err.println("The identification must be a number.");
             System.out.println("Please, enter the account identification number:");
@@ -190,10 +189,10 @@ public static void createAccount(Map<Integer, Account> accountMap){
         int idAccInt = Integer.parseInt(idAccString);
         if (!accountMap.containsKey(idAccInt)) {
             System.err.println("Account not found.");
-            createOpportunityInAccount();
+            createOpportunityInAccount(accountMap);
         }
         account = accountMap.get(idAccInt);
-        createDecisionMakerInAccount();
+        return account;
     }
 
         public static void createDecisionMakerInAccount() {

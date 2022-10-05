@@ -2,6 +2,7 @@ import org.example.Main;
 import org.example.classes.Account;
 import org.example.classes.Lead;
 import org.example.classes.Opportunity;
+import org.example.enums.IndustryOption;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class MainTests {
     private Map<Integer, Lead> leadMap;
     private Map<Integer, Opportunity> oppMap;
     private Map<Integer, Account> accountMap;
+    private Account account;
 
     @BeforeEach
     void setUp() {
@@ -33,7 +36,10 @@ public class MainTests {
             );
 
         oppMap = new HashMap<>();
+        Account account1 = new Account(IndustryOption.ECOMMERCE, 2, "Madrid", "Spain", new ArrayList<>(), new ArrayList<>());
         accountMap = new HashMap<>();
+        accountMap.put(account1.getId(), account1);
+        account = null;
     }
 
     @Test
@@ -147,7 +153,19 @@ public class MainTests {
         System.setIn(bais);
 
         Main.createAccount(accountMap);
-        assertEquals(1, accountMap.keySet().size());
+        assertEquals(2, accountMap.keySet().size());
+    }
+
+    @Test
+    @DisplayName("Create opportunity in account - works ok")
+    void createOpportunityInAccount_WorksOk(){
+        String userInput = "1";
+        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(bais);
+
+        Account account = Main.createOpportunityInAccount(accountMap);
+
+        assertEquals(1, account.getId());
     }
 
 
