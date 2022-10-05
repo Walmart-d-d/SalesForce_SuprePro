@@ -65,9 +65,11 @@ public class Main {
            }
     }
 
-    public static Lead getLeadToConvert() {
+    //REVIEW CODE - POSSIBLE BUG
+    public static Lead getLeadToConvert(Map<Integer, Lead> leadMap) {
         System.out.println("Enter the identification number of the lead you want to convert:");
         String idString = input.nextLine();
+
         while (!NumberUtils.isParsable(idString)) {
             System.err.println("The identification must be a number.");
             System.out.println("Please, enter the identification number:");
@@ -77,7 +79,7 @@ public class Main {
 
         if (!leadMap.containsKey(idInt)) {
             System.err.println("Lead not found.");
-            getLeadToConvert();
+            getLeadToConvert(leadMap);
         }
         Lead lead = leadMap.get(idInt);
         return lead;
