@@ -93,7 +93,7 @@ public class Main {
         leadMap.remove(idInt);
     }
 
-   public static void createOpportunity() {
+   public static void createOpportunity(Map<Integer, Opportunity> oppMap) {
        System.out.println("Choose product type:");
        System.out.println("1. Hybrid");
        System.out.println("2. Flatbed");
@@ -112,11 +112,10 @@ public class Main {
                break;
            default:
                System.err.println("Invalid option.");
-               createOpportunity();
+               createOpportunity(oppMap);
        }
        System.out.println("Number of products:");
        String numberOfProducts = input.nextLine();
-       /*    while (numberOfProducts.contains("a") || numberOfProducts.contains("b") || numberOfProducts.contains("c") || numberOfProducts.contains("d") || numberOfProducts.contains("e") || numberOfProducts.contains("f") || numberOfProducts.contains("g") || numberOfProducts.contains("h") || numberOfProducts.contains("i") || numberOfProducts.contains("j") || numberOfProducts.contains("k") || numberOfProducts.contains("l") || numberOfProducts.contains("m") || numberOfProducts.contains("n") || numberOfProducts.contains("o") || numberOfProducts.contains("p") || numberOfProducts.contains("q") || numberOfProducts.contains("r") || numberOfProducts.contains("s") || numberOfProducts.contains("t") || numberOfProducts.contains("u") || numberOfProducts.contains("v") || numberOfProducts.contains("w") || numberOfProducts.contains("x") || numberOfProducts.contains("y") || numberOfProducts.contains("z") || numberOfProducts.contains("A") || numberOfProducts.contains("B") || numberOfProducts.contains("C") || numberOfProducts.contains("D") || numberOfProducts.contains("E") || numberOfProducts.contains("F") || numberOfProducts.contains("G") || numberOfProducts.contains("H") || numberOfProducts.contains("I") || numberOfProducts.contains("J") || numberOfProducts.contains("K") || numberOfProducts.contains("L") || numberOfProducts.contains("M") || numberOfProducts.contains("N") || numberOfProducts.contains("O") || numberOfProducts.contains("P") || numberOfProducts.contains("Q") || numberOfProducts.contains("R") || numberOfProducts.contains("S") || numberOfProducts.contains("T") || numberOfProducts.contains("U") || numberOfProducts.contains("V") || numberOfProducts.contains("W") || numberOfProducts.contains("X") || numberOfProducts.contains("Y") || numberOfProducts.contains("Z")){*/
        while (!NumberUtils.isParsable(numberOfProducts)) {
            System.err.println("The quantity must be written in numbers.");
            System.out.println("Please, enter the number of products:");
@@ -126,9 +125,7 @@ public class Main {
        OppStatus status = OppStatus.OPEN;
        opportunity = new Opportunity(productType, decisionMaker, quantity, status);
        oppMap.put(opportunity.getId(), opportunity);
-       createAccount();
    }
-
 
 
 
@@ -163,7 +160,6 @@ public static void createAccount(){
         }
         System.out.println("Number of employees:");
         String numEmployees = input.nextLine();
-       /* while (numEmployees.contains("a") || numEmployees.contains("b") || numEmployees.contains("c") || numEmployees.contains("d") || numEmployees.contains("e") || numEmployees.contains("f") || numEmployees.contains("g") || numEmployees.contains("h") || numEmployees.contains("i") || numEmployees.contains("j") || numEmployees.contains("k") || numEmployees.contains("l") || numEmployees.contains("m") || numEmployees.contains("n") || numEmployees.contains("o") || numEmployees.contains("p") || numEmployees.contains("q") || numEmployees.contains("r") || numEmployees.contains("s") || numEmployees.contains("t") || numEmployees.contains("u") || numEmployees.contains("v") || numEmployees.contains("w") || numEmployees.contains("x") || numEmployees.contains("y") || numEmployees.contains("z") || numEmployees.contains("A") || numEmployees.contains("B") || numEmployees.contains("C") || numEmployees.contains("D") || numEmployees.contains("E") || numEmployees.contains("F") || numEmployees.contains("G") || numEmployees.contains("H") || numEmployees.contains("I") || numEmployees.contains("J") || numEmployees.contains("K") || numEmployees.contains("L") || numEmployees.contains("M") || numEmployees.contains("N") || numEmployees.contains("O") || numEmployees.contains("P") || numEmployees.contains("Q") || numEmployees.contains("R") || numEmployees.contains("S") || numEmployees.contains("T") || numEmployees.contains("U") || numEmployees.contains("V") || numEmployees.contains("W") || numEmployees.contains("X") || numEmployees.contains("Y") || numEmployees.contains("Z")){*/
             while(!NumberUtils.isParsable(numEmployees)){
             System.err.println("Must be a number.");
             System.out.println("Please, enter the number of employees in the company:");

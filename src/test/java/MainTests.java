@@ -1,5 +1,6 @@
 import org.example.Main;
 import org.example.classes.Lead;
+import org.example.classes.Opportunity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MainTests {
 
     private Map<Integer, Lead> leadMap;
-
+    private Map<Integer, Opportunity> oppMap;
 
     @BeforeEach
     void setUp() {
@@ -28,10 +29,9 @@ public class MainTests {
                 lead1.getId(), lead1,
                 lead2.getId(), lead2
             );
-        lead1.getId();
-        lead2.getId();
-    }
 
+        oppMap = new HashMap<>();
+    }
 
     @Test
     @DisplayName("Get lead info from terminal if valid inputs - works ok ")
@@ -118,6 +118,19 @@ public class MainTests {
     void removeFromLeadMap_WorksOk(){
         Main.removeFromLeadMap(1);
         assertEquals(2, leadMap.keySet().size());
+    }
+
+    @Test
+    @DisplayName("Create opportunity - works ok")
+    void createOpportunity_WorksOk(){
+        String userInput = String.format("1%s1%s",
+                System.lineSeparator(),
+                System.lineSeparator());
+        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(bais);
+
+        Main.createOpportunity(oppMap);
+        assertEquals(1, oppMap.keySet().size());
     }
 
 
