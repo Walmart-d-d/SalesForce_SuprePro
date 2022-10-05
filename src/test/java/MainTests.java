@@ -6,12 +6,15 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MainTests {
+
 
     @Test
     @DisplayName("Get lead info from terminal if valid inputs - works ok ")
@@ -63,6 +66,7 @@ public class MainTests {
         assertEquals("Tom@email.com", lead.getEmail());
         assertEquals("Mercadona", lead.getCompanyName());
     }
+
 
 
 }
