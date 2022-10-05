@@ -113,6 +113,13 @@ public class MainTests {
         assertEquals("Miguel", lead.getName());
     }
 
+    @Test
+    @DisplayName("Remove from Lead Map - works ok")
+    void removeFromLeadMap_WorksOk(){
+        Main.removeFromLeadMap(1);
+        assertEquals(2, leadMap.keySet().size());
+    }
+
 
 
 
