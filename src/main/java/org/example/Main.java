@@ -212,13 +212,14 @@ public static void createAccount(Map<Integer, Account> accountMap){
             Lead lead = leadMap.get(idInt);
             decisionMaker = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
             System.out.println(decisionMaker);
-            //leadMap.remove(idInt);
             return decisionMaker;
         }
 
+        //leadMap.remove(idInt); -- PENDING
 
 
-        public static void createOppInAccount(){
+
+        public static Opportunity createOppInAccount(Account account){
         System.out.println("Choose product type:");
         System.out.println("1. Hybrid");
         System.out.println("2. Flatbed");
@@ -237,7 +238,7 @@ public static void createAccount(Map<Integer, Account> accountMap){
                 break;
             default:
                 System.err.println("Not a valid option.");
-                createOppInAccount();
+                createOppInAccount(account);
         }
         System.out.println("Number of products:");
         String numberOfProducts = input.nextLine();
@@ -252,7 +253,9 @@ public static void createAccount(Map<Integer, Account> accountMap){
         oppMap.put(opportunity.getId(), opportunity);
         account.addContactList(decisionMaker);
         account.addOpportunityList(opportunity);
+        return opportunity;
     }
+
 
     public static void showAllOpportunities(){
         for(Map.Entry<Integer, Opportunity> opportunityEntry : oppMap.entrySet()){

@@ -26,6 +26,7 @@ public class MainTests {
     private Map<Integer, Account> accountMap;
     private Account account;
     private static Contact decisionMaker;
+    private Account account1;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +39,8 @@ public class MainTests {
             );
 
         oppMap = new HashMap<>();
-        Account account1 = new Account(IndustryOption.ECOMMERCE, 2, "Madrid", "Spain", new ArrayList<>(), new ArrayList<>());
+        Account newAccount = new Account(IndustryOption.ECOMMERCE, 2, "Madrid", "Spain", new ArrayList<>(), new ArrayList<>());
+        account1 = newAccount;
         accountMap = new HashMap<>();
         accountMap.put(account1.getId(), account1);
         account = null;
@@ -182,6 +184,20 @@ public class MainTests {
         System.out.println(decisionMaker1.toString());
 
         assertEquals(1, decisionMaker1.getId());
+    }
+
+    @Test
+    @DisplayName("Create opportunity in account - works ok")
+    void createOppInAccount_WorksOk(){
+        String userInput = String.format("1%s1",
+                System.lineSeparator());
+        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(bais);
+
+        Opportunity opportunity1 = Main.createOppInAccount(account1);
+        System.out.println(opportunity1.toString());
+
+        assertEquals(1, opportunity1.getId());
     }
 
 
