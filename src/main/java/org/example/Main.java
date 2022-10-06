@@ -327,7 +327,7 @@ public static void createAccount(Map<Integer, Account> accountMap){
         }
     }
 
-    public static void changeStatus() throws NoSuchFieldException {
+    public static void changeStatus( Map<Integer, Opportunity> oppMap) {
         System.out.println("Select opportunity by identification number:");
         String oppId = input.nextLine();
         while(!NumberUtils.isParsable(oppId)){
@@ -338,7 +338,7 @@ public static void createAccount(Map<Integer, Account> accountMap){
         int oppIdInt = Integer.parseInt(oppId);
         if (!oppMap.containsKey(oppIdInt)) {
             System.err.println("Lead not found.");
-            changeStatus();
+            changeStatus(oppMap);
         }
         System.out.println("Choose new status:");
         System.out.println("1. OPEN");
@@ -357,7 +357,7 @@ public static void createAccount(Map<Integer, Account> accountMap){
                 break;
             default:
                 System.err.println("Please, enter a valid option.");
-                changeStatus();
+                changeStatus(oppMap);
         }
     }
 }

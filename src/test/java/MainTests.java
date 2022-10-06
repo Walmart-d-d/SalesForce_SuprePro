@@ -4,6 +4,8 @@ import org.example.classes.Contact;
 import org.example.classes.Lead;
 import org.example.classes.Opportunity;
 import org.example.enums.IndustryOption;
+import org.example.enums.OppStatus;
+import org.example.enums.ProductType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,10 +25,11 @@ public class MainTests {
 
     private Map<Integer, Lead> leadMap;
     private Map<Integer, Opportunity> oppMap;
+    private Map<Integer, Opportunity> oppMap1;
     private Map<Integer, Account> accountMap;
     private Account account;
-    private static Contact decisionMaker;
     private Account account1;
+    private static Contact decisionMaker;
 
     @BeforeEach
     void setUp() {
@@ -39,8 +42,15 @@ public class MainTests {
             );
 
         oppMap = new HashMap<>();
+        oppMap1 = new HashMap<>();
+
+        Contact contact = new Contact("Maria", 678888999, "maria@email.com", "ironhack");
+        Opportunity opportunity = new Opportunity(ProductType.BOX, contact, 2, OppStatus.OPEN);
+        oppMap1.put(opportunity.getId(), opportunity);
+
         Account newAccount = new Account(IndustryOption.ECOMMERCE, 2, "Madrid", "Spain", new ArrayList<>(), new ArrayList<>());
         account1 = newAccount;
+
         accountMap = new HashMap<>();
         accountMap.put(account1.getId(), account1);
         account = null;
@@ -200,8 +210,17 @@ public class MainTests {
         assertEquals(1, opportunity1.getId());
     }
 
+    @Test
+    @DisplayName("Change status - works ok")
+    void changeStatus_WorksOk(){
+        String userInput = String.format("1%s2",
+                System.lineSeparator());
+        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(bais);
 
+        Main.changeStatus(oppMap1);
 
-
+        assertEquals(OppStatus.CLOSED_WON, oppMap1.get(1).getStatus());
+    }
 
 }
