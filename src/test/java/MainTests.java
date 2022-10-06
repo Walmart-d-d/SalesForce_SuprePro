@@ -123,21 +123,6 @@ public class MainTests {
     }
 
     @Test
-    @DisplayName("Get Lead to convert from terminal if id doesn't exists - works ok")
-    void getLeadToConvert_IdNotExists_WorksOK(){
-
-        String userInput = String.format("5%s2",
-                System.lineSeparator());
-        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
-        System.setIn(bais);
-
-        Lead lead = Main.getLeadToConvert(leadMap);
-
-        assertEquals(2, lead.getId());
-        assertEquals("Miguel", lead.getName());
-    }
-
-    @Test
     @DisplayName("Remove from Lead Map - works ok")
     void removeFromLeadMap_WorksOk(){
         Main.removeFromLeadMap(1);
@@ -183,18 +168,6 @@ public class MainTests {
         assertEquals(1, account.getId());
     }
 
-    @Test
-    @DisplayName("Create decision maker in account - works ok")
-    void createDecisionMakerInAccount_WorksOk(){
-        String userInput = "1";
-        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
-        System.setIn(bais);
-
-        Contact decisionMaker1 = Main.createDecisionMakerInAccount(leadMap);
-        System.out.println(decisionMaker1.toString());
-
-        assertEquals(1, decisionMaker1.getId());
-    }
 
     @Test
     @DisplayName("Create opportunity in account - works ok")
