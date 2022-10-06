@@ -7,6 +7,8 @@ import org.example.classes.Opportunity;
 import org.example.enums.IndustryOption;
 import org.example.enums.OppStatus;
 import org.example.enums.ProductType;
+
+import javax.swing.*;
 import java.util.*;
 
 public class Main {
@@ -17,11 +19,142 @@ public class Main {
     private static Contact decisionMaker;
     private static Opportunity opportunity;
     private static Account account;
+    private static Lead lead;
 
-    public static void main(String[] args){
 
+
+    public static void main(String[] args) throws NoSuchFieldException {
+    mainMenu();
+    }
+    public static void mainMenu() throws NoSuchFieldException {
+        System.out.println("1. Leads and opportunities");
+        System.out.println("2. Accounts");
+        System.out.println("3. Exit");
+        String option = input.nextLine();
+        switch (option){
+            case "1":
+                leadMenu();
+                break;
+            case "2":
+                accountMenu();
+                break;
+            case "3":
+                System.exit(0);
+                break;
+            default:
+                System.err.println("Invalid option");
+                System.out.println("Please, enter a valid option");
+                mainMenu();
+        }
+    }
+    public static void leadMenu() throws NoSuchFieldException {
+        System.out.println("1. Create Lead");
+        System.out.println("2. Show all Leads");
+        System.out.println("3. Show Lead by Identification Number");
+        System.out.println("4. Show all Opportunities");
+        System.out.println("5. Convert Lead into Opportunity");
+        System.out.println("6. Change status of an Opportunity");
+        System.out.println("7. Go back");
+        String option = input.nextLine();
+        switch (option){
+            case "1":
+                Map<String, String> leadInfo = getLeadInfo();
+                Lead lead = createLead(leadInfo);
+                leadMap.put(lead.getId(), lead);
+                System.out.println("A new Lead has been created:");
+                System.out.println(lead.toString());
+                leadMenu();
+                break;
+            case "2":
+                showLeadMap();
+                leadMenu();
+                break;
+            case "3":
+                showLeadById();
+                leadMenu();
+                break;
+            case "4":
+                showAllOpportunities();
+                leadMenu();
+                break;
+            case "5":
+                createOppMenu();
+                break;
+            case "6":
+                changeStatus(oppMap);
+                leadMenu();
+                break;
+            case "7":
+                mainMenu();
+                break;
+            default:
+                System.err.println("Invalid option");
+                System.out.println("Please, enter a valid option");
+                leadMenu();
+        }
     }
 
+    public static void createOppMenu() throws NoSuchFieldException {
+        System.out.println("1. Create a new Opportunity in a new Account");
+        System.out.println("2. Show all Accounts");
+        System.out.println("3. Create a new Opportunity in an existing Account");
+        System.out.println("4. Go back");
+        String option = input.nextLine();
+        switch(option) {
+            case "1":
+                getLeadToConvert(leadMap);
+                createDecisionMaker(lead);
+                createOpportunity(oppMap);
+                mainMenu();
+                break;
+            case "2":
+                showAccounts();
+                createOppMenu();
+                break;
+            case "3":
+                getLeadToConvert(leadMap);
+                createDecisionMaker(lead);
+                createOpportunityInAccount(accountMap);
+                createOppInAccount(account);
+                mainMenu();
+                break;
+            case "4":
+                leadMenu();
+                break;
+            default:
+                System.err.println("Invalid option");
+                System.out.println("Please, enter a valid option");
+                createOppMenu();
+        }
+    }
+
+    public static void accountMenu() throws NoSuchFieldException {
+        System.out.println("1. Show all Accounts");
+        System.out.println("2. Show list of Opportunities in an Account");
+        System.out.println("3. Show list of Contacts in an Account");
+        System.out.println("4. Go back");
+        String option = input.nextLine();
+        switch (option){
+            case "1":
+                showAccounts();
+                accountMenu();
+                break;
+            case "2":
+                showOpportunityList();
+                accountMenu();
+                break;
+            case "3":
+                showContactList();
+                accountMenu();
+                break;
+            case "4":
+                mainMenu();
+            default:
+                System.err.println("Invalid option");
+                System.out.println("Please, enter a valid option");
+                accountMenu();
+        }
+    }
 
     public static Map<String, String> getLeadInfo(){
         Map<String, String> leadInfo = new HashMap<>();
@@ -57,7 +190,6 @@ public class Main {
         return new Lead (leadInfo.get("name"), Integer.parseInt(leadInfo.get("phone")), leadInfo.get("email"), leadInfo.get("companyName"));
     }
 
-    //leadMap.put(lead.getId(), lead); --> pending
 
     public static void showLeadMap(){
            for(Map.Entry<Integer, Lead> leadEntry : leadMap.entrySet()){
@@ -65,7 +197,6 @@ public class Main {
            }
     }
 
-    //REVIEW CODE - POSSIBLE BUG
     public static Lead getLeadToConvert(Map<Integer, Lead> leadMap) {
         System.out.println("Enter the identification number of the lead you want to convert:");
         String idString = input.nextLine();
@@ -77,11 +208,19 @@ public class Main {
         }
         int idInt = Integer.parseInt(idString);
 
-        if (!leadMap.containsKey(idInt)) {
+        while (!leadMap.containsKey(idInt)) {
             System.err.println("Lead not found.");
-            getLeadToConvert(leadMap);
+            System.out.println("Enter the identification number of the lead you want to convert:");
+            idString = input.nextLine();
+            while (!NumberUtils.isParsable(idString)) {
+                System.err.println("The identification must be a number.");
+                System.out.println("Please, enter the identification number:");
+                idString = input.nextLine();
+            }
+            idInt = Integer.parseInt(idString);
         }
-        Lead lead = leadMap.get(idInt);
+        lead = leadMap.get(idInt);
+        leadMap.remove(idInt);
         return lead;
     }
 
@@ -125,6 +264,7 @@ public class Main {
        OppStatus status = OppStatus.OPEN;
        opportunity = new Opportunity(productType, decisionMaker, quantity, status);
        oppMap.put(opportunity.getId(), opportunity);
+       createAccount(accountMap);
    }
 
 
@@ -195,30 +335,6 @@ public static void createAccount(Map<Integer, Account> accountMap){
         return account;
     }
 
-        public static Contact createDecisionMakerInAccount(Map<Integer, Lead> leadMap) {
-            System.out.println("Enter the identification number of the lead you want to convert:");
-            String idString = input.nextLine();
-            while (!NumberUtils.isParsable(idString)) {
-                System.err.println("The identification must be a number.");
-                System.out.println("Please, enter the lead identification number:");
-                idString = input.nextLine();
-            }
-            System.out.println(idString);
-            int idInt = Integer.parseInt(idString);
-            if (!leadMap.containsKey(idInt)) {
-                System.err.println("Lead not found.");
-                createDecisionMakerInAccount(leadMap);
-            }
-            Lead lead = leadMap.get(idInt);
-            decisionMaker = new Contact(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
-            System.out.println(decisionMaker);
-            return decisionMaker;
-        }
-
-        //leadMap.remove(idInt); -- PENDING
-
-
-
         public static Opportunity createOppInAccount(Account account){
         System.out.println("Choose product type:");
         System.out.println("1. Hybrid");
@@ -266,7 +382,6 @@ public static void createAccount(Map<Integer, Account> accountMap){
     public static void showOpportunityList() throws NoSuchFieldException {
         System.out.println("Enter the identification number of the account you want to see the list of opportunities of:");
         String accString = input.nextLine();
-   /*     while (accString.contains("a") || accString.contains("b") || accString.contains("c") || accString.contains("d") || accString.contains("e") || accString.contains("f") || accString.contains("g") || accString.contains("h") || accString.contains("i") || accString.contains("j") || accString.contains("k") || accString.contains("l") || accString.contains("m") || accString.contains("n") || accString.contains("o") || accString.contains("p") || accString.contains("q") || accString.contains("r") || accString.contains("s") || accString.contains("t") || accString.contains("u") || accString.contains("v") || accString.contains("w") || accString.contains("x") || accString.contains("y") || accString.contains("z") || accString.contains("A") || accString.contains("B") || accString.contains("C") || accString.contains("D") || accString.contains("E") || accString.contains("F") || accString.contains("G") || accString.contains("H") || accString.contains("I") || accString.contains("J") || accString.contains("K") || accString.contains("L") || accString.contains("M") || accString.contains("N") || accString.contains("O") || accString.contains("P") || accString.contains("Q") || accString.contains("R") || accString.contains("S") || accString.contains("T") || accString.contains("U") || accString.contains("V") || accString.contains("W") || accString.contains("X") || accString.contains("Y") || accString.contains("Z")){*/
         while(!NumberUtils.isParsable(accString)){
             System.err.println("The identification must be a number.");
             System.out.println("Please, enter the account identification number:");
@@ -287,7 +402,6 @@ public static void createAccount(Map<Integer, Account> accountMap){
     public static void showContactList() throws NoSuchFieldException {
         System.out.println("Enter the identification number of the account you want to see the list of contacts of:");
         String accString = input.nextLine();
-        /*  while (accString.contains("a") || accString.contains("b") || accString.contains("c") || accString.contains("d") || accString.contains("e") || accString.contains("f") || accString.contains("g") || accString.contains("h") || accString.contains("i") || accString.contains("j") || accString.contains("k") || accString.contains("l") || accString.contains("m") || accString.contains("n") || accString.contains("o") || accString.contains("p") || accString.contains("q") || accString.contains("r") || accString.contains("s") || accString.contains("t") || accString.contains("u") || accString.contains("v") || accString.contains("w") || accString.contains("x") || accString.contains("y") || accString.contains("z") || accString.contains("A") || accString.contains("B") || accString.contains("C") || accString.contains("D") || accString.contains("E") || accString.contains("F") || accString.contains("G") || accString.contains("H") || accString.contains("I") || accString.contains("J") || accString.contains("K") || accString.contains("L") || accString.contains("M") || accString.contains("N") || accString.contains("O") || accString.contains("P") || accString.contains("Q") || accString.contains("R") || accString.contains("S") || accString.contains("T") || accString.contains("U") || accString.contains("V") || accString.contains("W") || accString.contains("X") || accString.contains("Y") || accString.contains("Z")){*/
         while(!NumberUtils.isParsable(accString)){
             System.err.println("The identification must be a number.");
             System.out.println("Please, enter the account identification number:");
@@ -313,7 +427,6 @@ public static void createAccount(Map<Integer, Account> accountMap){
     public static void showLeadById() throws NoSuchFieldException {
         System.out.println("Enter the identification number of the Lead you want to see:"); //hay que hacer catch
         String idString = input.nextLine();
-    /*    while (idString.contains("a") || idString.contains("b") || idString.contains("c") || idString.contains("d") || idString.contains("e") || idString.contains("f") || idString.contains("g") || idString.contains("h") || idString.contains("i") || idString.contains("j") || idString.contains("k") || idString.contains("l") || idString.contains("m") || idString.contains("n") || idString.contains("o") || idString.contains("p") || idString.contains("q") || idString.contains("r") || idString.contains("s") || idString.contains("t") || idString.contains("u") || idString.contains("v") || idString.contains("w") || idString.contains("x") || idString.contains("y") || idString.contains("z") || idString.contains("A") || idString.contains("B") || idString.contains("C") || idString.contains("D") || idString.contains("E") || idString.contains("F") || idString.contains("G") || idString.contains("H") || idString.contains("I") || idString.contains("J") || idString.contains("K") || idString.contains("L") || idString.contains("M") || idString.contains("N") || idString.contains("O") || idString.contains("P") || idString.contains("Q") || idString.contains("R") || idString.contains("S") || idString.contains("T") || idString.contains("U") || idString.contains("V") || idString.contains("W") || idString.contains("X") || idString.contains("Y") || idString.contains("Z")){*/
         while(!NumberUtils.isParsable(idString)){
             System.err.println("The identification must be a number.");
             System.out.println("Please, enter the lead identification number:");
@@ -327,7 +440,7 @@ public static void createAccount(Map<Integer, Account> accountMap){
         }
     }
 
-    public static void changeStatus( Map<Integer, Opportunity> oppMap) {
+    public static void changeStatus(Map<Integer, Opportunity> oppMap) {
         System.out.println("Select opportunity by identification number:");
         String oppId = input.nextLine();
         while(!NumberUtils.isParsable(oppId)){
@@ -337,7 +450,7 @@ public static void createAccount(Map<Integer, Account> accountMap){
         }
         int oppIdInt = Integer.parseInt(oppId);
         if (!oppMap.containsKey(oppIdInt)) {
-            System.err.println("Lead not found.");
+            System.err.println("Opportunity not found.");
             changeStatus(oppMap);
         }
         System.out.println("Choose new status:");
@@ -345,13 +458,13 @@ public static void createAccount(Map<Integer, Account> accountMap){
         System.out.println("2. CLOSED_WON");
         System.out.println("3. CLOSED_LOST");
         String status = input.nextLine();
-        switch (status){
+        switch (status) {
             case "1":
                 oppMap.get(oppIdInt).setStatus(OppStatus.OPEN);
-            break;
+                break;
             case "2":
                 oppMap.get(oppIdInt).setStatus(OppStatus.CLOSED_WON);
-            break;
+                break;
             case "3":
                 oppMap.get(oppIdInt).setStatus(OppStatus.CLOSED_LOST);
                 break;
@@ -359,5 +472,6 @@ public static void createAccount(Map<Integer, Account> accountMap){
                 System.err.println("Please, enter a valid option.");
                 changeStatus(oppMap);
         }
+        System.out.println("New status is "+oppMap.get(oppIdInt).getStatus());
     }
 }
